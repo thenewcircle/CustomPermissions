@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TimeNotifierClient</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="app_description">This app will start or connect to the New Circle Time Notifier service and receive time \"tick\" updates via broadcasts.</string>
+    <string name="connecting">Connecting to service...</string>
+    <string name="update_received">Received tick update from service.</string>
+
+</resources>
