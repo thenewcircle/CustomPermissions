@@ -84,6 +84,6 @@ public class TimeNotifierService extends Service {
         //  LAB: Revise this so the receiver is *REQUIRED* to hold a permission
         //  before the broadcast will be sent to it.
         Log.d(TAG, "Sending custom ACTION_TICK");
-        sendBroadcast(repIntent);
+        sendBroadcast(repIntent, Manifest.permission.RECEIVE_NOTIFIER_TICK);
     }
 }
