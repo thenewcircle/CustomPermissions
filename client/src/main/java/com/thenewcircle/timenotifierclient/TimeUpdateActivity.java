@@ -3,16 +3,18 @@ package com.thenewcircle.timenotifierclient;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.TextView;
 
 
 public class TimeUpdateActivity extends Activity {
-    protected static final String       ACTION_TOD_UPDATE = "com.thenewcircle.timenotifier.ACTION_TOD";
-    protected static final String       EXTRA_TOD_MS = "time-update-tod-ms";
+    protected static final String ACTION_TOD_UPDATE = "com.thenewcircle.timenotifier.ACTION_TOD";
+    protected static final String EXTRA_TOD_MS = "time-update-tod-ms";
 
-    private TextView            mStatusText;
-    private TextView            mTimeText;
+    private TextView mStatusText;
+    private TextView mTimeText;
+    private TimeUpdateTickReceiver timeUpdateTickReceiver = new TimeUpdateTickReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,10 @@ public class TimeUpdateActivity extends Activity {
 
         //  Inflate and setup the Activity's content view.
         setContentView(R.layout.activity_time_update);
+
+        // Register the Broadcast Receiver with the Service Intent Action
+        IntentFilter intentFilter = new IntentFilter("com.thenewcircle.timenotifier.ACTION_TICK");
+        registerReceiver(timeUpdateTickReceiver, intentFilter);
 
         //  Get the instances of our status and time update text views
         mStatusText = (TextView) findViewById(R.id.status_info);
@@ -33,14 +39,18 @@ public class TimeUpdateActivity extends Activity {
             mStatusText.setText(R.string.connecting);
 
             Intent srvIntent = new Intent(Intent.ACTION_MAIN);
-            ComponentName srvComp =
-                    new ComponentName("com.thenewcircle.timenotifier",
-                                      "com.thenewcircle.timenotifier.TimeNotifierService");
+            ComponentName srvComp = new ComponentName(
+                    "com.thenewcircle.timenotifier",
+                    "com.thenewcircle.timenotifier.TimeNotifierService");
             srvIntent.setComponent(srvComp);
 
             //  LAB: Verify the Activity crashes after the Service is updated to
             //  require a permission to start/bind it.
-            startService(srvIntent);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                startForegroundService(srvIntent);
+            } else {
+                startService(srvIntent);
+            }
         }
     }
 
