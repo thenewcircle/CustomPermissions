@@ -14,7 +14,7 @@ public class TimeUpdateActivity extends Activity {
 
     private TextView mStatusText;
     private TextView mTimeText;
-    private TimeUpdateTickReceiver timeUpdateTickReceiver = new TimeUpdateTickReceiver();
+    private TimeUpdateTickReceiver mTimeUpdateTickReceiver = new TimeUpdateTickReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class TimeUpdateActivity extends Activity {
 
         // Register the Broadcast Receiver with the Service Intent Action
         IntentFilter intentFilter = new IntentFilter("com.thenewcircle.timenotifier.ACTION_TICK");
-        registerReceiver(timeUpdateTickReceiver, intentFilter);
+        registerReceiver(mTimeUpdateTickReceiver, intentFilter);
 
         //  Get the instances of our status and time update text views
         mStatusText = (TextView) findViewById(R.id.status_info);
@@ -52,6 +52,12 @@ public class TimeUpdateActivity extends Activity {
                 startService(srvIntent);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mTimeUpdateTickReceiver);
     }
 
     @Override
