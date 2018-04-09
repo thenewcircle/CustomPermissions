@@ -2,6 +2,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thenewcircle.timenotifier" >
 
+    <permission-group
+        android:name="com.thenewcircle.timenotifier.TIME_UPDATE_PERMISSIONS"
+        android:description="@string/perm_group_descr"
+        android:label="@string/perm_group_label" />
+
+    <permission
+        android:name="com.thenewcircle.timenotifier.USE_TIME_NOTIFIER"
+        android:description="@string/perm_use_time_notifier_descr"
+        android:label="@string/perm_use_time_notifier_label"
+        android:permissionGroup="com.thenewcircle.timenotifier.TIME_UPDATE_PERMISSIONS"
+        android:protectionLevel="dangerous" />
+
+    <permission
+        android:name="com.thenewcircle.timenotifier.RECEIVE_NOTIFIER_TICK"
+        android:description="@string/perm_rx_notifier_tick_descr"
+        android:label="@string/perm_rx_notifier_tick_label"
+        android:permissionGroup="com.thenewcircle.timenotifier.TIME_UPDATE_PERMISSIONS"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -10,7 +29,8 @@
         <service
             android:name=".TimeNotifierService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true"
+            android:permission="com.thenewcircle.timenotifier.USE_TIME_NOTIFIER">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

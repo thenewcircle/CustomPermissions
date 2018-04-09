@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TimeNotifier</string>
+    <string name="perm_group_descr">start time notification services managed by the Time Notifier Service</string>
+    <string name="perm_group_label">Time Notifier Service time update permissions</string>
+    <string name="perm_use_time_notifier_descr">With this permission the app is allowed to start the Time Notifier Service.</string>
+    <string name="perm_use_time_notifier_label">Use the time notifier service</string>
+    <string name="perm_rx_notifier_tick_descr">With this permission the app can receive time notification tick updates from the Time Notifier Service.</string>
+    <string name="perm_rx_notifier_tick_label">Time Notifier Service receive time updates</string>
 </resources>
