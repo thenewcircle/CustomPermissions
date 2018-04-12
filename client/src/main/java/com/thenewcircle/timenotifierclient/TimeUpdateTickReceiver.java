@@ -17,7 +17,8 @@ public class TimeUpdateTickReceiver extends BroadcastReceiver {
         Intent actIntent = new Intent(TimeUpdateActivity.ACTION_TOD_UPDATE);
         actIntent.putExtra(TimeUpdateActivity.EXTRA_TOD_MS, System.currentTimeMillis());
         actIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        ComponentName cn = new ComponentName(TimeUpdateActivity.class.getPackage().getName(),
+        ComponentName cn = new ComponentName(
+                TimeUpdateActivity.class.getPackage().getName(),
                 TimeUpdateActivity.class.getName());
         actIntent.setComponent(cn);
         context.startActivity(actIntent);

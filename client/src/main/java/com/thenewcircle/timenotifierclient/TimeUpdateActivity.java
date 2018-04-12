@@ -23,47 +23,51 @@ public class TimeUpdateActivity extends Activity {
         //  Inflate and setup the Activity's content view.
         setContentView(R.layout.activity_time_update);
 
+        //  Get the instances of our status and time update text views
+        mStatusText = findViewById(R.id.status_info);
+        mTimeText = findViewById(R.id.timestamp);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         // Register the Broadcast Receiver with the Service Intent Action
         IntentFilter intentFilter = new IntentFilter("com.thenewcircle.timenotifier.ACTION_TICK");
         registerReceiver(mTimeUpdateTickReceiver, intentFilter);
 
-        //  Get the instances of our status and time update text views
-        mStatusText = (TextView) findViewById(R.id.status_info);
-        mTimeText = (TextView) findViewById(R.id.timestamp);
+        //  LAB: Verify the Activity crashes after the Service is updated to
+        //  require a permission to start/bind it.
 
-        //  On MAIN intents, try to start the service just in case it
-        //  is not already up and running.
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        if (action.equals(Intent.ACTION_MAIN)) {
-            mStatusText.setText(R.string.connecting);
-
-            Intent srvIntent = new Intent(Intent.ACTION_MAIN);
-            ComponentName srvComp = new ComponentName(
-                    "com.thenewcircle.timenotifier",
-                    "com.thenewcircle.timenotifier.TimeNotifierService");
-            srvIntent.setComponent(srvComp);
-
-            //  LAB: Verify the Activity crashes after the Service is updated to
-            //  require a permission to start/bind it.
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                startForegroundService(srvIntent);
-            } else {
-                startService(srvIntent);
-            }
-        }
+        startTimeNotifierService();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         unregisterReceiver(mTimeUpdateTickReceiver);
+    }
+
+    private void startTimeNotifierService() {
+        mStatusText.setText(R.string.connecting);
+
+        Intent srvIntent = new Intent(Intent.ACTION_MAIN);
+        ComponentName srvComp = new ComponentName(
+                "com.thenewcircle.timenotifier",
+                "com.thenewcircle.timenotifier.TimeNotifierService");
+        srvIntent.setComponent(srvComp);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForegroundService(srvIntent);
+        } else {
+            startService(srvIntent);
+        }
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         //  For UPDATE intents, update the text views with updated information.
-        if (intent.getAction().equals(ACTION_TOD_UPDATE)) {
+        if (ACTION_TOD_UPDATE.equals(intent.getAction())) {
             long stamp = intent.getLongExtra(EXTRA_TOD_MS, -1);
             mStatusText.setText(R.string.update_received);
             mTimeText.setText(Long.toString(stamp));
