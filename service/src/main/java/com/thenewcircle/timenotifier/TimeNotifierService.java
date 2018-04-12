@@ -1,5 +1,8 @@
 package com.thenewcircle.timenotifier;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +14,7 @@ import android.util.Log;
 public class TimeNotifierService extends Service {
     private static final String TAG = TimeNotifierService.class.getName();
 
-    private BroadcastReceiver   mTimeReceiver;
+    private BroadcastReceiver mTimeReceiver;
 
     public TimeNotifierService() {
     }
@@ -20,6 +23,23 @@ public class TimeNotifierService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "Created");
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            String CHANNEL_ID = "channel_01";
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "Timer Notifier Service", NotificationManager.IMPORTANCE_DEFAULT);
+
+            NotificationManager notificationManager =
+                    ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));
+
+            notificationManager.createNotificationChannel(channel);
+
+            Notification notification = new Notification.Builder(this, CHANNEL_ID)
+                    .setContentTitle("")
+                    .setContentText("").build();
+
+            startForeground(2, notification);
+        }
     }
 
     @Override
@@ -47,11 +67,8 @@ public class TimeNotifierService extends Service {
 
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIME_TICK);
             registerReceiver(mTimeReceiver, filter);
-            Log.d(TAG,
-                  "Registered receiver with filter: " +
-                  mTimeReceiver.toString() +
-                  ", " +
-                  filter.toString());
+            Log.d(TAG, "Registered receiver with filter: " + mTimeReceiver.toString() +
+                    ", " + filter.toString());
         }
 
         //  For new registrations (starts), automatically send a custom
@@ -78,8 +95,7 @@ public class TimeNotifierService extends Service {
     }
 
     private void sendCustomTick() {
-        Intent repIntent =
-                new Intent("com.thenewcircle.timenotifier.ACTION_TICK");
+        Intent repIntent = new Intent("com.thenewcircle.timenotifier.ACTION_TICK");
 
         //  LAB: Revise this so the receiver is *REQUIRED* to hold a permission
         //  before the broadcast will be sent to it.

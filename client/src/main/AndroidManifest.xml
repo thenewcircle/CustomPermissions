@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.thenewcircle.timenotifierclient" >
+    package="com.thenewcircle.timenotifierclient">
 
     <uses-permission android:name="com.thenewcircle.timenotifier.USE_TIME_NOTIFIER" />
     <uses-permission android:name="com.thenewcircle.timenotifier.RECEIVE_NOTIFIER_TICK" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".TimeUpdateActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,15 +22,6 @@
                 <action android:name="com.thenewcircle.timenotifier.ACTION_TOD" />
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name=".TimeUpdateTickReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.thenewcircle.timenotifier.ACTION_TICK" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

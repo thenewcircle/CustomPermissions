@@ -19,7 +19,7 @@
         android:description="@string/perm_rx_notifier_tick_descr"
         android:label="@string/perm_rx_notifier_tick_label"
         android:permissionGroup="com.thenewcircle.timenotifier.TIME_UPDATE_PERMISSIONS"
-        android:protectionLevel="dangerous" />
+        android:protectionLevel="normal" />
 
     <application
         android:allowBackup="true"
