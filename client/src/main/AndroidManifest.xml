@@ -4,7 +4,7 @@
 
     <uses-permission android:name="com.thenewcircle.timenotifier.USE_TIME_NOTIFIER" />
     <uses-permission android:name="com.thenewcircle.timenotifier.RECEIVE_NOTIFIER_TICK" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
