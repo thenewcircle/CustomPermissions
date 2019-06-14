@@ -60,7 +60,7 @@ public class TimeNotifierService extends Service {
                     //  around and send our own Intent
                     Log.d(TAG, "mTimeReceiver.onReceive for ACTION = " + intent.getAction());
 
-                    if (intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
+                    if (Intent.ACTION_TIME_TICK.equals(intent.getAction())) {
                         sendCustomTick();
                     }
                 }
