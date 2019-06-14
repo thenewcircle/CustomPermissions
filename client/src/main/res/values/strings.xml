@@ -9,5 +9,4 @@
     <string name="update_received">Received tick update from service.</string>
     <string name="permission_not_granted">User not granted permission</string>
     <string name="permission_request_cancelled">User cancelled permission dialog</string>
-
 </resources>

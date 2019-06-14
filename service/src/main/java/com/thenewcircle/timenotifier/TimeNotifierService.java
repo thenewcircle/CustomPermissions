@@ -59,7 +59,7 @@ public class TimeNotifierService extends Service {
                     //  around and send our own Intent
                     Log.d(TAG, "mTimeReceiver.onReceive for ACTION = " + intent.getAction());
 
-                    if (intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
+                    if (Intent.ACTION_TIME_TICK.equals(intent.getAction())) {
                         sendCustomTick();
                     }
                 }
@@ -100,6 +100,6 @@ public class TimeNotifierService extends Service {
         //  LAB: Revise this so the receiver is *REQUIRED* to hold a permission
         //  before the broadcast will be sent to it.
         Log.d(TAG, "Sending custom ACTION_TICK");
-        sendBroadcast(repIntent, Manifest.permission.RECEIVE_NOTIFIER_TICK);
+        sendBroadcast(repIntent, "com.thenewcircle.timenotifier.RECEIVE_NOTIFIER_TICK");
     }
 }
