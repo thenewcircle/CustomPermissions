@@ -14,7 +14,7 @@ import android.util.Log
 
 class TimeNotifierService : Service() {
 
-    private var mTimeReceiver: BroadcastReceiver? = null
+    private var timeReceiver: BroadcastReceiver? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -42,14 +42,14 @@ class TimeNotifierService : Service() {
         Log.d(TAG, "Received cmd Intent: Action = " + intent.action!!)
 
         //  Create our internal BR for time ticks
-        if (mTimeReceiver == null) {
+        if (timeReceiver == null) {
             Log.d(TAG, "Creating TICK receiver")
 
-            mTimeReceiver = object : BroadcastReceiver() {
+            timeReceiver = object : BroadcastReceiver() {
                 override fun onReceive(context: Context, intent: Intent) {
                     //  Verify this is the ACTION_TIME_TICK broadcast then turn
                     //  around and send our own Intent
-                    Log.d(TAG, "mTimeReceiver.onReceive for ACTION = " + intent.action!!)
+                    Log.d(TAG, "timeReceiver.onReceive for ACTION = " + intent.action!!)
 
                     if (Intent.ACTION_TIME_TICK == intent.action) {
                         sendCustomTick()
@@ -58,8 +58,8 @@ class TimeNotifierService : Service() {
             }
 
             val filter = IntentFilter(Intent.ACTION_TIME_TICK)
-            registerReceiver(mTimeReceiver, filter)
-            Log.d(TAG, "Registered receiver with filter: " + mTimeReceiver!!.toString() +
+            registerReceiver(timeReceiver, filter)
+            Log.d(TAG, "Registered receiver with filter: " + timeReceiver!!.toString() +
                     ", " + filter.toString())
         }
 
@@ -74,8 +74,8 @@ class TimeNotifierService : Service() {
 
     override fun onDestroy() {
         Log.d(TAG, "Destroyed!")
-        unregisterReceiver(mTimeReceiver)
-        mTimeReceiver = null
+        unregisterReceiver(timeReceiver)
+        timeReceiver = null
         super.onDestroy()
     }
 

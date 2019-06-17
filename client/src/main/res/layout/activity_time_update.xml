@@ -22,14 +22,14 @@
         android:background="@android:color/black" />
 
     <TextView
-        android:id="@+id/status_info"
+        android:id="@+id/statusText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/text_vert_pad"
         android:paddingTop="@dimen/text_vert_pad" />
 
     <TextView
-        android:id="@+id/timestamp"
+        android:id="@+id/timestampText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_dark"
