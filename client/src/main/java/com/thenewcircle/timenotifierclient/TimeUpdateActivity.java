@@ -12,8 +12,8 @@ public class TimeUpdateActivity extends Activity {
     protected static final String ACTION_TOD_UPDATE = "com.thenewcircle.timenotifier.ACTION_TOD";
     protected static final String EXTRA_TOD_MS = "time-update-tod-ms";
 
-    private TextView mStatusText;
-    private TextView mTimeText;
+    private TextView statusText;
+    private TextView timeText;
     private TimeUpdateTickReceiver mTimeUpdateTickReceiver = new TimeUpdateTickReceiver();
 
     @Override
@@ -24,8 +24,8 @@ public class TimeUpdateActivity extends Activity {
         setContentView(R.layout.activity_time_update);
 
         //  Get the instances of our status and time update text views
-        mStatusText = findViewById(R.id.status_info);
-        mTimeText = findViewById(R.id.timestamp);
+        statusText = findViewById(R.id.statusText);
+        timeText = findViewById(R.id.timestampText);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class TimeUpdateActivity extends Activity {
     }
 
     private void startTimeNotifierService() {
-        mStatusText.setText(R.string.connecting);
+        statusText.setText(R.string.connecting);
 
         Intent srvIntent = new Intent(Intent.ACTION_MAIN);
         ComponentName srvComp = new ComponentName(
@@ -69,8 +69,8 @@ public class TimeUpdateActivity extends Activity {
         //  For UPDATE intents, update the text views with updated information.
         if (ACTION_TOD_UPDATE.equals(intent.getAction())) {
             long stamp = intent.getLongExtra(EXTRA_TOD_MS, -1);
-            mStatusText.setText(R.string.update_received);
-            mTimeText.setText(Long.toString(stamp));
+            statusText.setText(R.string.update_received);
+            timeText.setText(Long.toString(stamp));
         }
     }
 }
