@@ -1,9 +1,7 @@
 package com.thenewcircle.timenotifierclient;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -19,7 +17,7 @@ public class TimeUpdateActivity extends Activity {
 
     private TextView statusText;
     private TextView timeText;
-    private TimeUpdateTickReceiver mTimeUpdateTickReceiver = new TimeUpdateTickReceiver();
+    private TimeUpdateTickReceiver timeUpdateTickReceiver = new TimeUpdateTickReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +37,7 @@ public class TimeUpdateActivity extends Activity {
 
         // Register the Broadcast Receiver with the Service Intent Action
         IntentFilter intentFilter = new IntentFilter("com.thenewcircle.timenotifier.ACTION_TICK");
-        registerReceiver(mTimeUpdateTickReceiver, intentFilter);
+        registerReceiver(timeUpdateTickReceiver, intentFilter);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             if (checkSelfPermission(PERMISSION_USE_TIME_NOTIFIER)
@@ -59,21 +57,19 @@ public class TimeUpdateActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mTimeUpdateTickReceiver);
+        unregisterReceiver(timeUpdateTickReceiver);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[],
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_USE_NOTIFIER_REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startTimeNotifierService();
-                } else {
-                    mStatusText.setText(R.string.permission_request_cancelled);
-                }
+        // If request is cancelled, the result arrays are empty.
+        if (requestCode == PERMISSION_USE_NOTIFIER_REQUEST_CODE) {
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startTimeNotifierService();
+            } else {
+                statusText.setText(R.string.permission_request_cancelled);
             }
         }
     }
