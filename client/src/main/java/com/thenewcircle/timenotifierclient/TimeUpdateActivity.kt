@@ -54,11 +54,12 @@ class TimeUpdateActivity : AppCompatActivity() {
     }
 
     override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
         //  For UPDATE intents, update the text views with updated information.
         if (ACTION_TOD_UPDATE == intent.action) {
             val stamp = intent.getLongExtra(EXTRA_TOD_MS, -1)
             statusText.setText(R.string.update_received)
-            timestampText.text = java.lang.Long.toString(stamp)
+            timestampText.text = stamp.toString()
         }
     }
 
